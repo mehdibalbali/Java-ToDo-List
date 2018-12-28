@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
@@ -18,6 +19,8 @@ public class Controller {
 	private ListView list;
 	@FXML
 	private TextArea itemDetails;
+	@FXML
+	private Label DeadlineLabel;
 	
 	public void initialize() {
 		TodoItems item1=new TodoItems("Mail to friend","you must send an emaill",LocalDate.of(2018, Month.FEBRUARY	, 21));
@@ -40,11 +43,8 @@ public class Controller {
 	
 	public void handleClicListView() {
 		TodoItems item= (TodoItems) list.getSelectionModel().getSelectedItem();
-		System.out.println("Selected the item "+item);
-		StringBuilder sb=new StringBuilder(item.getDetails());
-		sb.append("\n\n\n");
-		sb.append("-------------\n");
-		sb.append(item.getDeadline().toString());
-		itemDetails.setText(sb.toString());
+		System.out.println("Selected the item "+item); 
+		itemDetails.setText(item.getDetails());//to show details in the center 
+		DeadlineLabel.setText(item.getDeadline().toString());// to show deadline in the bottom
 	}
 }
