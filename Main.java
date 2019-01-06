@@ -2,11 +2,14 @@ package toDoList;
 
 
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import toDoList.data.TodoData;
 
 public class Main  extends Application {
 
@@ -20,4 +23,12 @@ public class Main  extends Application {
 			primaryStage.setScene(new Scene(root,900,500));
 			primaryStage.show();
 }
+		@Override
+		public void stop() throws IOException {
+			try {
+				TodoData.getInstance().storeItems();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
 }
