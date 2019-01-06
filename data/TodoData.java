@@ -26,12 +26,12 @@ public class TodoData {
 		
 		private List<TodoItems> todoItems;
 		private  DateTimeFormatter formatter;
-		private static TodoData getInstance() {
+		public static TodoData getInstance() {
 			return instance;
 		}
 		
 		private TodoData() {
-			formatter= DateTimeFormatter.ofPattern("jj-mm-aaaa");
+			formatter= DateTimeFormatter.ofPattern("dd-mm-yyyy");
 		}
 
 		public List<TodoItems> getTodoItems() {
@@ -71,6 +71,22 @@ public class TodoData {
 			
 		}
 		
+		public static void setInstance(TodoData instance) {
+			TodoData.instance = instance;
+		}
+		
+		public DateTimeFormatter getFormatter() {
+			return formatter;
+		}
+
+		public void setFormatter(DateTimeFormatter formatter) {
+			this.formatter = formatter;
+		}
+
+		public String getFilename() {
+			return filename;
+		}
+
 		public void storeItems() throws IOException {
 			Path path = Paths.get(filename);
 			BufferedWriter bw = Files.newBufferedWriter(path);
@@ -80,8 +96,9 @@ public class TodoData {
 				while(iter.hasNext()) {
 					TodoItems item =iter.next();
 					bw.write(String.format("%s%s%s",
-							item.getDescription(),item.getDescription(),item.getDeadline().format(formatter)
+							item.getDescription(),item.getDetails(),item.getDeadline().format(formatter)
 							));
+					bw.newLine();
 				}
 			}finally {
 				if(bw != null) {
