@@ -3,11 +3,21 @@
  */
 package toDoList.data;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 /**
- * @author GeekDjerbien
+ * in this class we will store and read data from a file 
  *
  */
 public class TodoData {
@@ -31,6 +41,53 @@ public class TodoData {
 		public void setTodoItems(List<TodoItems> todoItems) {
 			this.todoItems = todoItems;
 		}
+		// to load data 
+		public void loadItems() throws IOException {
+			todoItems = FXCollections.observableArrayList();
+			Path path = Paths.get(filename);
+			BufferedReader br = Files.newBufferedReader(path);
+			
+			String input;
+			
+			try {
+				while((input=br.readLine()) != null){
+					String[] items = input.split("\n");
+					
+					String description = items[0];
+					String details =items[1];
+					String dateS = items[2];
+					
+					LocalDate date= LocalDate.parse(dateS, formatter);
+					
+					TodoItems todoItem = new TodoItems(description, details, date);
+					todoItems.add((TodoItems) todoItems);
+				}
+				
+			}finally {
+				if(br != null) {
+					br.close();
+				}
+			}
+			
+		}
 		
+		public void storeItems() throws IOException {
+			Path path = Paths.get(filename);
+			BufferedWriter bw = Files.newBufferedWriter(path);
+			
+			try {
+				Iterator<TodoItems> iter = todoItems.iterator();
+				while(iter.hasNext()) {
+					TodoItems item =iter.next();
+					bw.write(String.format("%s%s%s",
+							item.getDescription(),item.getDescription(),item.getDeadline().format(formatter)
+							));
+				}
+			}finally {
+				if(bw != null) {
+					bw.close();
+				}
+			}
+		}
 		
 }
