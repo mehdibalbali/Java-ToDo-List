@@ -29,13 +29,15 @@ public class Controller {
 		TodoItems item4=new TodoItems("clean the howse ","you must send an emaill",LocalDate.of(2018, Month.FEBRUARY	, 21));
 		TodoItems item5=new TodoItems("pick up dry cleaning","Clothes must be ready ",LocalDate.of(2018, Month.APRIL	, 21));
 		
-		todoItems=new ArrayList<TodoItems>();
+		todoItems  =new ArrayList<TodoItems>();
 		
 		todoItems.add(item1);
 		todoItems.add(item2);
 		todoItems.add(item3);
 		todoItems.add(item4);
 		todoItems.add(item5);
+		
+		TodoData.getInstance().setTodoItems(todoItems);
 		
 		list.getItems().setAll(todoItems);	
 		list.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
